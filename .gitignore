@@ -4,3 +4,6 @@ target
 *.iml
 node_modules
 public
+.classpath
+.project
+.settings
