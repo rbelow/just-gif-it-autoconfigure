@@ -2,8 +2,8 @@
  *
  */
 /**
- * @author john
+ * @author rbelow
  * 
- * {@link What is package-info.java? | https://www.intertech.com/Blog/whats-package-info-java-for/}
+ * @see <a href="https://www.intertech.com/Blog/whats-package-info-java-for/">What is package-info.java for?</a>
  */
 package com.justgifit;
