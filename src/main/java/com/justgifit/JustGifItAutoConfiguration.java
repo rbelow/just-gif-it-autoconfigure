@@ -1,6 +1,6 @@
 package com.justgifit;
 
-import java.io.File;
+import javax.inject.Inject;
 
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,10 +8,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -23,18 +22,19 @@ import com.madgag.gif.fmsware.AnimatedGifEncoder;
 
 @Configuration
 @ConditionalOnClass({FFmpegFrameGrabber.class, AnimatedGifEncoder.class})
+@EnableConfigurationProperties(JustGifItProperties.class)
 public class JustGifItAutoConfiguration {
 
-	@Value("${multipart.location}/gif/")
-	private String gifLocation;
+	@Inject
+	private JustGifItProperties properties;
 
 	//@PostConstruct
 	@Bean
 	@ConditionalOnProperty(prefix = "com.justgifit", name = "create-result-dir")
 	public Boolean createResultDir() {
-		File gifFolder = new File(gifLocation);
-		if (!gifFolder.exists()) {
-			gifFolder.mkdir();
+
+		if (!properties.getGifLocation().exists()) {
+			properties.getGifLocation().mkdir();
 		}
 		
 		return true;
